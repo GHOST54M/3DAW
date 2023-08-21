@@ -1,3 +1,3 @@
 # 3DAW
 
-Código indez pertencente a calculadora
+Código index pertencente a calculadora

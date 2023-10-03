@@ -1,101 +1,75 @@
+<?php
+    $arq = fopen("produto.txt","r")or die("Não foi possível abrir o arquivo.");
+    $i = 0;
+    $linhas[] = fgets($arq);
+?>
 <html>
-    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Calculadora</title>
+  <head>
+    <title>Loja Online</title>
     <style>
-        *{
-            margin:0;
-            padding:0;
-        }
+    #tabela, #operacoes_menu, #formulario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-        h1{
-            font-size: 36px;
-            margin: 10px;
-        }
-        #calculadora, #formcalculadora{
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
+    }
+    #tabela > a{
+        margin: 20px;
+    }
+    #cabecalho > td{
+        font-weight: 700;
+        font-size: 20px;
+        padding: 5px;
+        background-color:lightcoral;
+    }
+    .campo{
+        margin: 10px;
+        background-color:lightgray;     
+    }
+    #formulario, #formulario > input{
+    margin-top:10px;
+ 
+    }
+      
+  </style>
+  </head>
+  
+  <body>
+    <main>
+    <section id="tabela">
+        <h1>Lista de produtos</h1>
+        <table>
+            <tr id="cabecalho"><td>ID:</td><td>Nome:</td>        <td>Valor:</td></tr>
+            <?php
+            while (!feof($arq)) {
+                $linhas[] = fgets($arq);
+                $dados = explode(";", $linhas[$i]);
+                $id = $dados[0];
+                $nome = $dados[1];
+                $valor = $dados[2];
+                echo "<tr class='campo'>";
+                echo "<td>" . $id . "</td>";
+                echo "<td>" . $nome . "</td>";
+                echo "<td> R$" . $valor. "</td>";
+                echo "</tr>";
+                $i++;
+    }
+            ?>
 
-        }
-        #formcalculadora{
-            border: 2px solid black;
-            border-radius: 15px;
-            padding: 20px;
-        }
-        #formcalculadora > input{
-            margin: 20px;
-            padding: 5px;
-            width: 90px;
-            height: 50px;
-            font-size: 20px;
-        }
-        #formcalculadora > select{
-            width: 120px;
-            height: 50px;
-            font-size: 20px;           
-        }
-        p{
-            padding-top: 10px;
-            font-size: 30px;
-            font-weight: 700;
-        }
-    </style>
-    </head>
-    <body>
-        <header></header>
-
-        <main>
-
-            <section id="calculadora">
-                <h1>Calculadora</h1>
-            <form id="formcalculadora" action="index.php" method="GET">
-
-                <input type="number" name="op1">
-                <input type="number" name="op2">
-                <select name="operacao" form="formcalculadora">
-                    <option value="1">Soma</option>
-                    <option value="2">Subtração</option>
-                    <option value="3">Divisão</option>
-                    <option value="4">Multiplicação</option>
-                </select>
-
-                <input type="submit" value="Calcular">
-
-            </form>
-                <?php
-                    $op1 = $_GET["op1"];
-                    $op2 = $_GET["op2"];
-                    $operacao = $_GET["operacao"];
-
-                    switch ($operacao) {
-
-                        case 1:
-                           $resultado = $op1 + $op2;
-                            break;
-
-                        case 2:
-                            $resultado = $op1 - $op2;
-                            break;
-
-                        case 3:
-                            $resultado = $op1 / $op2;
-                            break;
-
-                        case 4:
-                            $resultado = $op1 * $op2;
-                             break;
-                    }
-
-                    echo "<p>Resultado:$resultado </p>";
-                ?>
-            </section>
-
-        </main>
-
-<footer></footer>
-    </body>
+        </table>
+    </section>
+      <section id="operacoes_menu">
+              <form method="POST" id="formulario" action="adicionar_carrinho.php">
+                
+        <input type="number" name="id" placeholder="Digite o ID do produto" required>
+        <input type="number" name="quantidade" placeholder="Digite a quantidade do produto" required>
+        <input type="submit" value="Adicionar">
+      </form>
+        <a href="ver_carrinho.php">Visualizar carrinho</a>
+          </section>
+</main>
+<?php
+    fclose($arq);
+?>
+  </body>
 </html>

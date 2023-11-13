@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Inserir produto</title>
+    <style>
+        h1{
+            display: flex;
+    justify-content: center;
+        }
+       #tabela, #operacoes_menu, #formulario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    }
+    #tabela > a{
+        margin: 20px;
+    }
+    #cabecalho > td{
+        font-weight: 700;
+        font-size: 20px;
+        padding: 5px;
+        background-color:lightcoral;
+    }
+    .campo{
+        margin: 10px;
+        background-color:lightgray;     
+    }
+    #formulario, #formulario > input{
+    margin-top:10px;
+ 
+    }
+    </style>
+    <script>
+
+    function enviarProduto() {
+          var formulario = document.getElementById("formulario");
+          var dados = new FormData(formulario);
+
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "cadastrar_produto2.php", true);
+          xhr.onload = function() {
+            if (xhr.status == 200) {
+
+              console.log(xhr.responseText);
+            }
+          };
+          xhr.send(dados);
+        }
+    </script>
+
+</head>
+<body>
+    <h1>Cadastrar Produto</h1>
+<br>
+<br>
+    <section id="operacoes_menu">
+    <form action="" method=POST name="formProduto" id="formulario">
+            <input type="number" name="id" placeholder="Digite o ID do produto" required>
+            <input type="text" name="nome" placeholder="Digite o nome do produto" required>
+            <input type="text" name="preco" placeholder="Digite o valor do produto" required>
+        
+            <input type="submit" value="Inserir" onclick="return enviarProduto();">
+    </form>
+            <a href="index.php">Voltar</a>
+    </section>
+</body>
+</html>
